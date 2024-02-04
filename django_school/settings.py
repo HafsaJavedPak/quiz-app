@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['my-best-wiki.azurewebsites.net','127.0.0.1','django-quiz-app.azurewebsites.net']
 
@@ -118,12 +118,12 @@ USE_TZ = True
 STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")
 STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
 
-if DEBUG :
-    STATICFILES_DIRS = [
-        ('', os.path.join(BASE_DIR, 'static')),
-    ]
-else :
-    STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", "./static/")
+# if DEBUG :
+# STATICFILES_DIRS = [
+#     ('', os.path.join(BASE_DIR, 'static')),
+# ]
+# else :
+STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", "./static/")
 
 AUTH_USER_MODEL = 'classroom.User'
 
