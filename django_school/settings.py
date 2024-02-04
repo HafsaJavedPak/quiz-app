@@ -115,10 +115,12 @@ USE_TZ = True
 # when i included both, it gave this error : The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting.
 STATIC_URL = '/static/'
 
-# CHAGE MADE ACCORDING TO CHATPGT
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'collected_static')
-
-# Custom Django auth settings
+if DEBUG :
+    STATICFILES_DIRS = [
+        ('', os.path.join(BASE_DIR, 'static')),
+    ]
+else :
+    STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 AUTH_USER_MODEL = 'classroom.User'
 
