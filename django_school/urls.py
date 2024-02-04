@@ -1,5 +1,7 @@
 from django.urls import include, path
 from django.contrib.auth.views import LoginView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from classroom.views import classroom, students, teachers
 
@@ -11,4 +13,4 @@ urlpatterns = [
     path('accounts/signup/teacher/', teachers.TeacherSignUpView.as_view(), name='teacher_signup'),
     path('accounts/logout', classroom.home_page, name='logout'),
     path('account/login', LoginView.as_view(), name='login'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

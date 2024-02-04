@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'classroom',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -113,12 +115,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 # when i included both, it gave this error : The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting.
-STATIC_URL = '/static/'
+STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")
+# STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
 
-# CHAGE MADE ACCORDING TO CHATPGT
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'collected_static')
-
-# Custom Django auth settings
+if DEBUG :
+    STATICFILES_DIRS = [
+        ('', os.path.join(BASE_DIR, 'static')),
+    ]
+else :
+    STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 AUTH_USER_MODEL = 'classroom.User'
 
