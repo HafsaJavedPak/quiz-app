@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 from django.contrib.messages import constants as messages
-
+# from pathlib import Path
+from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,13 +23,55 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
+# SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
 
-ALLOWED_HOSTS = ['my-best-wiki.azurewebsites.net','127.0.0.1','django-quiz-app.azurewebsites.net']
+# ALLOWED_HOSTS = ['127.0.0.1','django-quiz-app.azurewebsites.net']
+# CSRF_TRUSTED_ORIGINS = ['https://django-quiz-app.azurewebsites.net']
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+# when i included both, it gave this error : The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting.
+# STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")
+# STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
+
+# if DEBUG :
+#     STATICFILES_DIRS = [
+#         ('', os.path.join(BASE_DIR, 'static')),
+#     ]
+# else :
+#     STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(' ')
+
+SECURE_SSL_REDIRECT = \
+    os.getenv('SECURE_SSL_REDIRECT', '0').lower() in ['true', 't', '1']
+if SECURE_SSL_REDIRECT:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+DEFAULT_FILE_STORAGE = 'core.azure_storage.AzureMediaStorage'
+STATICFILES_STORAGE = 'core.azure_storage.AzureStaticStorage'
+
+AZURE_ACCOUNT_NAME = os.getenv('STORAGE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = os.getenv('STORAGE_ACCOUNT_KEY')
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+
+
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/media/'
+# MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 # Application definition
 
@@ -41,7 +84,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'classroom',
-    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +105,6 @@ CORS_ALLOWED_ORIGINS = [
 
 ROOT_URLCONF = 'django_school.urls'
 
-CSRF_TRUSTED_ORIGINS = ['https://django-quiz-app.azurewebsites.net']
 
 TEMPLATES = [
     {
@@ -111,19 +152,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-# when i included both, it gave this error : The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting.
-STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")
-# STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
-
-if DEBUG :
-    STATICFILES_DIRS = [
-        ('', os.path.join(BASE_DIR, 'static')),
-    ]
-else :
-    STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 AUTH_USER_MODEL = 'classroom.User'
 
