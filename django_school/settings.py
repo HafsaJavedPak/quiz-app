@@ -18,8 +18,8 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
+"""
+ Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -44,7 +44,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #     ]
 # else :
 #     STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
-
+"""
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -60,7 +60,7 @@ if SECURE_SSL_REDIRECT:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # DEFAULT_FILE_STORAGE = 'core.azure_storage.AzureMediaStorage'
-STATICFILES_STORAGE = 'core.azure_storage.AzureStaticStorage'
+STATICFILES_STORAGE = 'django_school.azure_storage.AzureStaticStorage'
 
 AZURE_ACCOUNT_NAME = os.getenv('STORAGE_ACCOUNT_NAME')
 AZURE_ACCOUNT_KEY = os.getenv('STORAGE_ACCOUNT_KEY')
