@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+# from django.conf import settings
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,7 +28,7 @@ SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
 DEBUG = False
 
 ALLOWED_HOSTS = ['my-best-wiki.azurewebsites.net','127.0.0.1','django-quiz-app.azurewebsites.net']
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Application definition
 
@@ -123,7 +123,7 @@ if DEBUG :
         ('', os.path.join(BASE_DIR, 'static')),
     ]
 else :
-    STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'classroom.User'
 
