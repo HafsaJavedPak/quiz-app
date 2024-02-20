@@ -28,7 +28,7 @@ SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
 DEBUG = False
 
 ALLOWED_HOSTS = ['my-best-wiki.azurewebsites.net','127.0.0.1','django-quiz-app.azurewebsites.net']
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Application definition
 
